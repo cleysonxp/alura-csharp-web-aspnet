@@ -1,6 +1,7 @@
 ﻿using ScreenSound.Web.Requests;
 using ScreenSound.Web.Response;
 using System.Net.Http.Json;
+using System.Reflection.Metadata;
 
 namespace ScreenSound.Web.Services;
 
@@ -11,6 +12,7 @@ public class ArtistasAPI
     {
         _httpClient = factory.CreateClient("API");
     }
+
     public async Task<ICollection<ArtistaResponse>?> GetArtistasAsync()
     {
         return await _httpClient.GetFromJsonAsync<ICollection<ArtistaResponse>>("artistas");
@@ -21,8 +23,6 @@ public class ArtistasAPI
         await _httpClient.PostAsJsonAsync("artistas", artista);
     }
 
-    //Código omitido
-
     public async Task DeleteArtistaAsync(int id)
     {
         await _httpClient.DeleteAsync($"artistas/{id}");
@@ -32,4 +32,9 @@ public class ArtistasAPI
     {
         return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/{nome}");
     }
+    public async Task UpdateArtistaAsync(ArtistaRequestEdit artista)
+    {
+        await _httpClient.PutAsJsonAsync($"artistas", artista);
+    }
+
 }
