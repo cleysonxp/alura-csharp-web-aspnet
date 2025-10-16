@@ -23,24 +23,9 @@
                           RequiredError="Campo obrigatório." />
 
             <div class="d-flex align-center justify-space-between mt-4">
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Primary"
-                           Class="ml-auto"
-                           @onclick="Editar">
-                    Salvar
-                </MudButton>
-                <MudButton Variant="Variant.Filled"
-                           @onclick="Deletar"
-                           Color="Color.Secondary"
-                           Class="ml-3">
-                    Deletar
-                </MudButton>
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Info"
-                           Class="ml-3"
-                           @onclick="VoltarParaListagem">
-                    Voltar
-                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" @onclick="Editar"> Salvar </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="ml-3" @onclick="Deletar"> Deletar </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Info" Class="ml-3" @onclick="VoltarParaListagem"> Voltar </MudButton>
             </div>
 
         </MudForm>
