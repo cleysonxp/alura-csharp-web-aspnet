@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -34,14 +35,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddCors(
-    options => options.AddPolicy(
-        "wasm",
-        policy => policy.WithOrigins([builder.Configuration["BackendUrl"] ?? "https://localhost:7089",
+    options => options.AddPolicy("wasm", policy =>
+        policy.WithOrigins([builder.Configuration["BackendUrl"] ?? "https://localhost:7089",
             builder.Configuration["FrontendUrl"] ?? "https://localhost:7015"])
             .AllowAnyMethod()
-            .SetIsOriginAllowed(pol => true)
-            .AllowAnyHeader()
-            .AllowCredentials()));
+       .SetIsOriginAllowed(pol => true)
+       .AllowAnyHeader()
+       .AllowCredentials()));
 
 
 var app = builder.Build();
@@ -56,6 +56,12 @@ app.AddEndPointsMusicas();
 app.AddEndPointGeneros();
 
 app.MapGroup("auth").MapIdentityApi<PessoaComAcesso>().WithTags("Autorizacao");
+
+app.MapPost("auth/logout", async ([FromServices] SignInManager<PessoaComAcesso> signInManager) =>
+{
+    await signInManager.SignOutAsync();
+    return Results.Ok();
+}).RequireAuthorization().WithTags("Autorizacao");
 
 app.UseSwagger();
 app.UseSwaggerUI();
